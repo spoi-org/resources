@@ -1,0 +1,47 @@
+{{ $pages := where site.RegularPages "Params.editorial.platform" "!=" nil }}
+
+{{ range site.Data.editorials.platforms }}
+  {{ $platform := .name }}
+  {{ $platformPages := where $pages "Params.editorial.platform" $platform }}
+
+  {{ if $platformPages }}
+    <h2>{{ $platform }}</h2>
+
+    {{ $uncategorized := where $platformPages "Params.editorial.category" nil }}
+    {{ if $uncategorized }}
+      <ul>
+        {{ range sort $uncategorized "Params.editorial.problem" }}
+          <li>
+            <a href="{{ .RelPermalink }}">
+              {{ default .Title .Params.editorial.name }}
+            </a>
+            {{ with .Params.editorial.variant }}
+              <span> — {{ . }}</span>
+            {{ end }}
+          </li>
+        {{ end }}
+      </ul>
+    {{ end }}
+
+    {{ range .categories }}
+      {{ $category := . }}
+      {{ $categoryPages := where $platformPages "Params.editorial.category" $category }}
+
+      {{ if $categoryPages }}
+        <h3>{{ $category }}</h3>
+        <ul>
+          {{ range sort $categoryPages "Params.editorial.problem" }}
+            <li>
+              <a href="{{ .RelPermalink }}">
+                {{ default .Title .Params.editorial.name }}
+              </a>
+              {{ with .Params.editorial.variant }}
+                <span> — {{ . }}</span>
+              {{ end }}
+            </li>
+          {{ end }}
+        </ul>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

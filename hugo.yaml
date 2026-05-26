@@ -1,0 +1,46 @@
+baseURL: https://example.org/
+languageCode: en-us
+title: resources
+theme: hextra
+markup:
+  highlight:
+    noClasses: false
+  goldmark:
+    renderer:
+      unsafe: true
+    extensions:
+      passthrough:
+        enable: true
+        delimiters:
+          block:
+            - ['$$', '$$']
+          inline:
+            - ['$', '$']
+params:
+  highlight:
+    theme:
+      light: github-light
+      dark: onedark
+  math:
+    engine: katex
+  theme:
+    displayToggle: false
+menu:
+  main:
+    - name: Contributors
+      pageRef: /contributors
+      weight: 1
+    - name: Search
+      weight: 2
+      params:
+        type: search
+    - name: GitHub
+      weight: 3
+      url: "https://github.com/spoi-org/resources"
+      params:
+        icon: github
+    - name: Theme Toggle
+      weight: 4
+      params:
+        type: theme-toggle
+        label: false

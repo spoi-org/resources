@@ -1,0 +1,64 @@
+{{ $id := .Get 0 }}
+
+{{ $problems := dict
+  "cses-array-division" (dict
+    "title" "Array Division"
+    "source" "CSES"
+    "url" "https://cses.fi/problemset/task/1085"
+  )
+  "codeforces-hamburgers" (dict
+    "title" "Hamburgers"
+    "source" "Codeforces"
+    "url" "https://codeforces.com/contest/371/problem/C"
+  )
+  "cses-multiplication-table" (dict
+    "title" "Multiplication Table"
+    "source" "CSES"
+    "url" "https://cses.fi/problemset/task/2422"
+  )
+  "cses-forest-queries" (dict
+    "title" "Forest Queries"
+    "source" "CSES"
+    "url" "https://cses.fi/problemset/task/1652"
+  )
+  "atcoder-gcd-on-blackboard" (dict
+    "title" "GCD on Blackboard"
+    "source" "AtCoder"
+    "url" "https://atcoder.jp/contests/abc125/tasks/abc125_c"
+  )
+  "cses-subarray-sums-ii" (dict
+    "title" "Subarray Sums II"
+    "source" "CSES"
+    "url" "https://cses.fi/problemset/task/1661"
+  )
+  "yosupo-range-kth-smallest" (dict
+    "title" "Range Kth Smallest"
+    "source" "Yosupo"
+    "url" "https://judge.yosupo.jp/problem/range_kth_smallest"
+  )
+  "joisc-cake3" (dict
+    "title" "Cake 3"
+    "source" "JOISC"
+    "url" "https://checklist.spoi.org.in/problem/joisc/cake_3/"
+  )
+  "joisc-lamps" (dict
+    "title" "Lamps"
+    "source" "JOISC"
+    "url" "https://checklist.spoi.org.in/problem/joisc/lamps/"
+  )
+  "noi-gym-badges" (dict
+    "title" "Gym Badges"
+    "source" "NOI"
+    "url" "https://checklist.spoi.org.in/problem/noifinal/gym_badges/"
+  )
+}}
+
+{{ $p := index $problems $id }}
+
+<a class="problem-card" href="{{ $p.url }}" target="_blank" rel="noopener">
+  <div>
+    <div class="problem-card-title">{{ $p.title }}</div>
+    <div class="problem-card-source">{{ $p.source }}</div>
+  </div>
+  <span class="problem-card-icon">↗</span>
+</a>
