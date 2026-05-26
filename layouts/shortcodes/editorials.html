@@ -10,7 +10,7 @@
     {{ $uncategorized := where $platformPages "Params.editorial.category" nil }}
     {{ if $uncategorized }}
       <ul>
-        {{ range sort $uncategorized "Params.editorial.problem" }}
+        {{ range sort $uncategorized "Params.editorial.name" }}
           <li>
             <a href="{{ .RelPermalink }}">
               {{ default .Title .Params.editorial.name }}
@@ -30,7 +30,7 @@
       {{ if $categoryPages }}
         <h3>{{ $category }}</h3>
         <ul>
-          {{ range sort $categoryPages "Params.editorial.problem" }}
+          {{ range sort $categoryPages "Params.editorial.name" }}
             <li>
               <a href="{{ .RelPermalink }}">
                 {{ default .Title .Params.editorial.name }}
