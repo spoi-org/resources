@@ -5,7 +5,7 @@ editorial:
   platform: "CSES"
   category: "Introductory Problems"
   name: "Weird Algorithm"
-weight: 3
+weight: 4
 ---
 
 Implementation is the process of translating your ideas and solutions into code (usually C++ code).

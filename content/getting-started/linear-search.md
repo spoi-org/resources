@@ -2,6 +2,7 @@
 date: '2026-05-25T21:47:38Z'
 draft: true
 title: 'Linear search'
+weight: 3
 ---
 
 Linear search is an extremely common technique in competitive programming, and you probably already know what it is, even if you think you don't.
