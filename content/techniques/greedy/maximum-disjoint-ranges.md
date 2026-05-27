@@ -109,7 +109,7 @@ We note that $e_j \ge e_i$. Let us make $S' = (S \setminus \{j\}) \cup \{i\}$. N
 
 Therefore, we have managed to construct $S'$ with $|S'| \ge |S|$, proving that an optimal set containing $i$ must always exist.
 
-For readers not convinced by the rigour of this proof, we are essentially imagining a huge set of sets of all the possible ways to pick intervals ($2^n$). In this set, we want to prove that our target set ($S'$) is the maximum element. We do this by showing, for every other element in the set ($S$), that $|S'| \ge |S|$.
+For readers not convinced by the rigour of this proof, we are essentially imagining a huge set of sets of all the possible ways to pick intervals (potentially $2^n$ many). In this set, we want to prove that our target set ($S'$) is the maximum element. We do this by showing, for every other element in the set ($S$), that $|S'| \ge |S|$.
 
 ## Code
 

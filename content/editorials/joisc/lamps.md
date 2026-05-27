@@ -23,7 +23,7 @@ How do we begin? Lucky for us, the problem gives us a good place to start.
 
 $n \le 18$ should instantly remind you of one thing: bitmasks. And, sure enough, you can represent each state of string $a$ as a bitmask. We could try dynamic programming, but we'd quickly notice that there would be circular dependencies. But that's not an issue with something like a breadth-first-search. And actually, that's the solution.
 
-Almost. Keep in mind that we can't implement our transitions in $\mathcal{O}(n^3)$ (naively). We need to be smart and use bitwise operations (which make our transitions $\mathcal{O}(n^2)$).
+However, keep in mind that we can't implement our transitions in $\mathcal{O}(n^3)$ (naively). We need to be smart and use bitwise operations (which make our transitions $\mathcal{O}(n^2)$).
 
 Let us iterate over each pair $(l, r)$ such that $1 \le l \le r \le n$. Let our starting state be $s$.
 
@@ -83,6 +83,20 @@ Of course, similar logic can be used to reach the same conclusion for consecutiv
 
 ### Case #2: Intervals don't perfectly overlap
 
+<div style="margin: 2rem auto; display: flex; justify-content: center; align-items: center; gap: 4rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 1.15rem; line-height: 1;">
+  <span style="position: relative; display: inline-block; width: 14ch;">
+    01010000100101
+    <span style="position: absolute; left: 0ch; width: 5ch; top: 1.35em; border-top: 1px solid currentColor;"></span>
+    <span style="position: absolute; left: 2ch; width: 5ch; top: 1.65em; border-top: 1px solid red;"></span>
+  </span>
+  <span style="font-family: serif; font-size: 1.6rem; position: relative; top: -0.1em;">⇒</span>
+  <span style="position: relative; display: inline-block; width: 14ch;">
+    01010000100101
+    <span style="position: absolute; left: 2ch; width: 5ch; top: 1.35em; border-top: 1px solid red;"></span>
+    <span style="position: absolute; left: 0ch; width: 2ch; top: 1.65em; border-top: 1px solid currentColor;"></span>
+  </span>
+</div>
+
 With this, we've proven that there exists an optimal solution where all set operations occur before all toggle operations. How do we proceed?
 
 Well, it's natural to divide the process into two steps:
@@ -131,9 +145,9 @@ This converts $s$ to a $0$ string, and the answer here (as we already determined
 
 So now we know how to find the answer for both steps $p$ and $q$. How do we use this to solve the problem?
 
-Easy! Iterate over all $3^n$ possible ternary strings.
+Do we iterate over all $3^n$ possible ternary strings.
 
-Okay, we obviously can't actually do that, but what we can do is use dynamic programming. We'll need to store the index we're at ($i$), the current character of the ternary string ($j$), and the number of segments (for step $p$), modulo $2$ ($k$). I'm sure you can figure the rest out yourself. If you can't, read ahead.
+No, we can't actually do that, but what we can do is use dynamic programming. We'll need to store the index we're at ($i$), the current character of the ternary string ($j$), and the number of segments (for step $p$), modulo $2$ ($k$). I'm sure you can figure the rest out yourself. If you can't, read ahead.
 
 ### Code
 

@@ -1,6 +1,10 @@
 ---
 draft: false
 title: 'Multiple dimensions'
+editorial:
+  platform: "CSES"
+  category: "Range Queries"
+  name: "Forest Queries"
 weight: 3
 ---
 
