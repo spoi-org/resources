@@ -1,6 +1,6 @@
 ---
 draft: false
-title: 'Use some math'
+title: 'Missing Number'
 editorial:
   platform: "CSES"
   category: "Introductory Problems"

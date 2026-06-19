@@ -1,6 +1,6 @@
 ---
 draft: false
-title: 'Just do what the problem asks'
+title: 'Weird Algorithm'
 editorial:
   platform: "CSES"
   category: "Introductory Problems"
