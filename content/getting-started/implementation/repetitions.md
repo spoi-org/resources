@@ -2,9 +2,9 @@
 draft: false
 title: 'Repetitions'
 editorial:
-platform: "CSES"
-category: "Introductory Problems"
-name: "Repetitions"
+    platform: "CSES"
+    category: "Introductory Problems"
+    name: "Repetitions"
 weight: 1
 ---
 
