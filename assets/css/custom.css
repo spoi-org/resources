@@ -60,3 +60,24 @@
 .dark .problem-card-icon {
   color: #a1a1aa;
 }
+
+.mermaid .edgeLabel,
+.mermaid .edgeLabel p,
+.mermaid .labelBkg {
+  background: transparent !important;
+}
+
+.mermaid .edgeLabel rect {
+  fill: transparent !important;
+  opacity: 0 !important;
+}
+
+/* Allow shifted text to escape its normal label box */
+.mermaid .edgeLabel foreignObject {
+  overflow: visible !important;
+}
+
+/* Move the actual text above the arrow */
+.mermaid .edgeLabel p {
+  transform: translateY(-15px);
+}

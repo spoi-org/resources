@@ -54,7 +54,7 @@ So... what do we do?
 
 The right move in most greedy problems is to 'fix' the right variable. With this in mind, let us try fixing the time we arrive at the festival, that is, the time after which we can start picking intervals. In fact, let us define a function $f(t)$ that denotes the maximum number of intervals we can pick if we can only pick intervals that start at or after $t$. 
 
-The point of doing this is to notice only one thing: that $f$ is monotonic. Indeed, $f(t) \le f(t-1)$ for any value of $t$. This is because the set of intervals associated with $t-1$ is bigger than that affected with $t$, so, if $f(t-1)$ was currently worse, we could just pick the same set of intervals picked by $f(t)$ to get them to be equal.
+The point of doing this is to notice only one thing: that $f$ is monotonic. Indeed, $f(t) \le f(t-1)$ for any value of $t$. This is because the set of intervals associated with $t-1$ is bigger than that associated with $t$, so, if $f(t-1)$ was currently worse, we could just pick the same set of intervals picked by $f(t)$ to get them to be equal.
 
 Now, out of out the intervals $[s_i, e_i)$ available to us at $t=0$, let us try picking all of them. Then, we get
 
