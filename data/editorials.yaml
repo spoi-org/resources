@@ -21,6 +21,7 @@ platforms:
       - Additional Problems II
   - name: JOISC
   - name: NOI
+  - name: INOI
   - name: Yosupo
   - name: AtCoder
   - name: Codeforces
