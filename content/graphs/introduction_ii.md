@@ -2,6 +2,7 @@
 date: '2026-05-25T21:47:38Z'
 draft: false
 title: 'Introduction II'
+weight: 1
 cascade:
   type: docs
 ---
@@ -161,6 +162,24 @@ bool solve(int a, int b) {
       return true;
     }
   }
+  return false;
+}
+```
+
+We can think of this another way. We traverse each edge from every node, returning early if we've visited that node previously. 
+
+```cpp
+bool solve(int a, int b) {
+  if (vis[a]) {
+    return;
+  }
+  vis[a] = true;
+  if (a == b) return true;
+
+  for (int &i : adj[a]) {
+    if (solve(i, b)) return true;
+  }
+
   return false;
 }
 ```
