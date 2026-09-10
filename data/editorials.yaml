@@ -22,6 +22,7 @@ platforms:
   - name: JOISC
   - name: NOI
   - name: INOI
+  - name: ZCO
   - name: Yosupo
   - name: AtCoder
   - name: Codeforces
