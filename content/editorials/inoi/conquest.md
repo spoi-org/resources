@@ -218,127 +218,137 @@ Each query costs $\mathcal{O}(\log N)$ for the LCA and $\mathcal{O}(\log N)$ mer
 using namespace std;
 
 struct Node {
-    array<int,4> values{};
+  array<int, 4> values{};
 };
 
 Node leaf(int gold) {
-    Node node;
-    node.values[0*2+0] = gold;
-    return node;
+  Node node;
+  node.values[0 * 2 + 0] = gold;
+  return node;
 }
 
 Node merge(const Node &lower, const Node &upper) {
-    Node result;
-    for (int first = 0; first < 2; first++) {
-        for (int second = 0; second < 2; second++) {
-            result.values[first*2+second] = max(lower.values[first*2+1] + upper.values[0*2+second],
-                                                lower.values[first*2+0] + upper.values[1*2+second]);
-        }
+  Node result;
+  for (int first = 0; first < 2; first++) {
+    for (int second = 0; second < 2; second++) {
+      result.values[first * 2 + second] = max(lower.values[first * 2 + 1] + upper.values[0 * 2 + second],
+                                              lower.values[first * 2 + 0] + upper.values[1 * 2 + second]);
     }
+  }
 
-    return result;
+  return result;
 }
 
 Node reversed(Node node) {
-    swap(node.values[0*2+1], node.values[1*2+0]);
-    return node;
+  swap(node.values[0 * 2 + 1], node.values[1 * 2 + 0]);
+  return node;
 }
 
 signed main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
 
-    int N, Q;
-    cin >> N >> Q;
+  int N, Q;
+  cin >> N >> Q;
 
-    vector<int> gold(N+1, 0);
-    for (int i = 1; i <= N; i++) cin >> gold[i];
+  vector<int> gold(N + 1, 0);
+  for (int i = 1; i <= N; i++)
+    cin >> gold[i];
 
-    vector<vector<int>> adj(N+1);
-    for (int i = 0; i < N-1; i++) {
-        int u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+  vector<vector<int>> adj(N + 1);
+  for (int i = 0; i < N - 1; i++) {
+    int u, v;
+    cin >> u >> v;
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+  }
+
+  vector<int> parent(N + 1, 0), depth(N + 1, 0);
+  vector<char> seen(N + 1, 0);
+  vector<int> pending{1};
+  seen[1] = 1;
+  while (!pending.empty()) {
+    int node = pending.back();
+    pending.pop_back();
+    for (int next : adj[node]) {
+      if (seen[next])
+        continue;
+      seen[next] = 1;
+      parent[next] = node;
+      depth[next] = depth[node] + 1;
+      pending.push_back(next);
     }
+  }
 
-    vector<int> parent(N+1, 0), depth(N+1, 0);
-    vector<char> seen(N+1, 0);
-    vector<int> pending{1};
-    seen[1] = 1;
-    while (!pending.empty()) {
-        int node = pending.back(); pending.pop_back();
-        for (int next : adj[node]) {
-            if (seen[next]) continue;
-            seen[next] = 1;
-            parent[next] = node;
-            depth[next] = depth[node] + 1;
-            pending.push_back(next);
-        }
-    }
+  int LOG = 1;
+  while ((1LL << LOG) <= N)
+    LOG++;
 
-    int LOG = 1;
-    while ((1LL << LOG) <= N) LOG++;
+  vector<vector<int>> ancestor(LOG, vector<int>(N + 1, 0));
+  vector<vector<Node>> table(LOG, vector<Node>(N + 1));
 
-    vector<vector<int>> ancestor(LOG, vector<int>(N+1, 0));
-    vector<vector<Node>> table(LOG, vector<Node>(N+1));
-
+  for (int node = 1; node <= N; node++) {
+    ancestor[0][node] = parent[node];
+    table[0][node] = leaf(gold[node]);
+  }
+  for (int level = 1; level < LOG; level++)
     for (int node = 1; node <= N; node++) {
-        ancestor[0][node] = parent[node];
-        table[0][node] = leaf(gold[node]);
+      int middle = ancestor[level - 1][node];
+      ancestor[level][node] = ancestor[level - 1][middle];
+      table[level][node] = merge(table[level - 1][node], table[level - 1][middle]);
     }
-    for (int level = 1; level < LOG; level++)
-        for (int node = 1; node <= N; node++) {
-            int middle = ancestor[level-1][node];
-            ancestor[level][node] = ancestor[level-1][middle];
-            table[level][node] = merge(table[level-1][node], table[level-1][middle]);
-        }
 
-    auto lca = [&](int u, int v) {
-        if (depth[u] < depth[v]) swap(u, v);
+  auto lca = [&](int u, int v) {
+    if (depth[u] < depth[v])
+      swap(u, v);
 
-        int difference = depth[u] - depth[v];
-        for (int level = 0; level < LOG; level++) {
-            if (difference >> level & 1) u = ancestor[level][u];
-        }
-
-        if (u == v) return u;
-        for (int level = LOG-1; level >= 0; level--) {
-            if (ancestor[level][u] != ancestor[level][v]) { u = ancestor[level][u]; v = ancestor[level][v]; }
-        }
-
-        return ancestor[0][u];
-    };
-
-    auto lift = [&](int node, int steps) {
-        Node combined;
-        bool started = false;
-        for (int level = 0; level < LOG; level++)
-            if (steps >> level & 1) {
-                combined = started ? merge(combined, table[level][node]) : table[level][node];
-                started = true;
-                node = ancestor[level][node];
-            }
-        return combined;
-    };
-
-    while (Q--) {
-        int u, v;
-        cin >> u >> v;
-
-        int meet = lca(u, v);
-        int upperSteps = depth[u] - depth[meet];
-        int lowerSteps = depth[v] - depth[meet];
-
-        Node first = lift(u, upperSteps + 1);
-        if (lowerSteps == 0) {
-            cout << first.values[0*2+0] << "\n";
-            continue;
-        }
-
-        Node second = lift(v, lowerSteps);
-        cout << merge(first, reversed(second)).values[0*2+0] << "\n";
+    int difference = depth[u] - depth[v];
+    for (int level = 0; level < LOG; level++) {
+      if (difference >> level & 1)
+        u = ancestor[level][u];
     }
+
+    if (u == v)
+      return u;
+    for (int level = LOG - 1; level >= 0; level--) {
+      if (ancestor[level][u] != ancestor[level][v]) {
+        u = ancestor[level][u];
+        v = ancestor[level][v];
+      }
+    }
+
+    return ancestor[0][u];
+  };
+
+  auto lift = [&](int node, int steps) {
+    Node combined;
+    bool started = false;
+    for (int level = 0; level < LOG; level++)
+      if (steps >> level & 1) {
+        combined = started ? merge(combined, table[level][node]) : table[level][node];
+        started = true;
+        node = ancestor[level][node];
+      }
+    return combined;
+  };
+
+  while (Q--) {
+    int u, v;
+    cin >> u >> v;
+
+    int meet = lca(u, v);
+    int upperSteps = depth[u] - depth[meet];
+    int lowerSteps = depth[v] - depth[meet];
+
+    Node first = lift(u, upperSteps + 1);
+    if (lowerSteps == 0) {
+      cout << first.values[0 * 2 + 0] << "\n";
+      continue;
+    }
+
+    Node second = lift(v, lowerSteps);
+    cout << merge(first, reversed(second)).values[0 * 2 + 0] << "\n";
+  }
 }
 ```
 
