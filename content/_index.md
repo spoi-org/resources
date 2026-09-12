@@ -8,6 +8,8 @@ cascade:
 
 # Resources
 
+**We're looking for contributors; for more information, go to [contributing]({{< ref "contributing.md" >}})**.
+
 Welcome to SPOI's resources page. We've written high-quality explanations and editorials for various problems and techniques, across various popular sources.
 
 ## Navigating this page

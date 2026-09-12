@@ -2,6 +2,7 @@
 date: '2026-05-25T21:47:38Z'
 draft: false
 title: 'Graphs'
+weight: 5
 cascade:
   type: docs
 ---
