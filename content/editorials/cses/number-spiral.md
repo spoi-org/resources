@@ -9,10 +9,10 @@ editorial:
 {{< problem "cses-number-spiral" >}}
 
 ## Abridged problem statement
-Given a grid with numbers filled in the form of an outward spiral, find the number that is present in the cell (i,j).
+Given a grid with numbers filled in the form of an outward spiral, find the number that is present in the cell (x,y).
 
 ## Observation
-Consider a square from the top left corner to a cell (a,a). This square contains all the numbers from $1$ to $a^2$. For example a square starting at cell (1,1) and ending at cell (3,3) has values from 1 to 9.
+Consider a square from the top left corner to a cell $(a,a)$. This square contains all the numbers from $1$ to $a^2$. For example a square starting at cell $(1,1)$ and ending at cell $(3,3)$ has values from $1$ to $9$.
 
 <style>
 .number-grid {
@@ -53,10 +53,12 @@ Consider a square from the top left corner to a cell (a,a). This square contains
 
 ## Solution
 Now let us divide the grid into squares starting at the top left corner of the grid. 
-Now I pick a cell (x,y) outside a square of dimensions $a \times a$. I know the value on cell (x,y) has to be greater than $a^2$. This is because all the numbers from $1$ to $a^2$ are already present in the square. 
+Now I pick a cell $(x,y)$ outside a square of dimensions $a \times a$. I know the value on cell $(x,y)$ has to be greater than $a^2$. This is because all the numbers from $1$ to $a^2$ are already already completely contained inside that square. 
 So how do we use this to solve this problem?
-Let me consider the largest square the cell (x,y) is not part of. What should be the dimensions of this square? If $x \geq y$ this square must have dimensions $(x-1) \times (x-1)$. If $y \geq x$ this square must have dimensions $(y-1) \times (y-1)$. 
-After we fill the square, we need to find how the remaining numbers are filled. These numbers are filled using method 1 and method 2 alternatively.
+Consider the largest square that does not contain the cell $(x,y)$. What should be the dimensions of this square? If $x \geq y$ this square must have dimensions $(x-1) \times (x-1)$. If $y \geq x$ this square must have dimensions $(y-1) \times (y-1)$. 
+Once this square has been filled, all numbers up to $(\max(x,y)-1)^2$ have already been used. The spiral uses Method 1 when the side length of the previously completed square (the blue square) is odd, and Method 2 when it is even.
+
+method 1:
 
 <style>
 .grid-container {
@@ -124,6 +126,8 @@ After we fill the square, we need to find how the remaining numbers are filled. 
   </svg>
 </div>
 
+
+method 2:
 <style>
 .grid-container {
   position: relative;
@@ -192,8 +196,9 @@ After we fill the square, we need to find how the remaining numbers are filled. 
 
 The numbers are filled in method 1 if the dimensions of the blue filled square is odd and method 2 if the dimensions of the blue filled square are even.
 For simplicity, we will be dealing with $x \geq y$ here. You can easily derive the result for the other case as well. 
-If the cells were filled using method 1, we have already filled the square of dimensions $(x-1)^2$ and there are $y$ extra numbers that are entered. 
-If the cells were filled using method 2, we have already filled the square of dimensions $(x-1)^2$ and there are $x + (x - y) = 2x - y$ extra numbers that are entered. 
+
+We first fill the square of dimensions $(x-1)\times(x-1)$, which contains the numbers $1$ through $(x-1)^2$. We continue counting from $(x-1)^2$ and move forward by $y$ cells 
+If the cells were filled using method 2, we start by filling the square of dimensions $(x-1)^2$. After this we continue to fill $x + (x - y) = 2x - y$ additional cells. 
 
 ## Code
 ``` cpp
@@ -226,4 +231,4 @@ int32_t main(){
         }
         cout<<"\n";
     }
-} ```
+} 
