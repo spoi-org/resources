@@ -4,7 +4,7 @@ title: 'Contributing'
 weight: 7
 ---
 
-We're currently seeking contributors to write editorials for older ZCO and INOI problems to improve the completeness of this resource. However, high-quality editorials for other problems and olympiads are also welcome!
+We're currently looking for contributors to write editorials for older ZCO and INOI problems to improve the completeness of this resource. However, high-quality editorials for other problems and olympiads are also welcome!
 
 ## Standards
 
