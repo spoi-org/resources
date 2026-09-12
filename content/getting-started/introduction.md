@@ -65,7 +65,7 @@ Here, $c \cdot f(n)$ represents an upper bound on how the runtime grows relative
 
 The graph below shows how some common time complexities grow as the input size $n$ increases. The curves are illustrative and are intended to show their relative growth rather than exact runtimes.
 
-![Comparison of computational complexities](/images/time-complexity.svg)
+![Comparison of computational complexities](time-complexity.svg)
 
 *Image: Cmglee, CC BY-SA 4.0, via Wikimedia Commons.*
 
