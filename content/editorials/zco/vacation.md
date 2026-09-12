@@ -6,7 +6,7 @@ editorial:
   name: "Vacation"
 ---
 
-{{< problem "Vacation" >}}
+{{< problem "zco-vacation" >}}
 
 # ZCO 2022 - Vacation
 ## Subtask 4 (Q <= 5)
