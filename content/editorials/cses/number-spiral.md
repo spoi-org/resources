@@ -15,49 +15,55 @@ Given a grid with numbers filled in the form of an outward spiral, find the numb
 Consider a square from the top left corner to a cell (a,a). This square contains all the numbers from $1$ to $a^2$. For example a square starting at cell (1,1) and ending at cell (3,3) has values from 1 to 9.
 
 <style>
-  body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0; margin: 0; }
-  table { border-collapse: collapse; font-family: Arial, sans-serif; font-weight: bold; font-size: 24px; background-color: #ffffff; }
-  td { border: 4px solid #1a1a1a; width: 70px; height: 70px; text-align: center; vertical-align: middle; color: #000000; }
-  .fill-blue { background-color: #1E90FF; }
-  .fill-default { background-color: #dcdcdc; }
+.grid-container { position: relative; width: 400px; height: 400px; }
+td { border: 4px solid #1a1a1a; width: 20%; height: 20%; text-align: center; vertical-align: middle; color: #000000; box-sizing: border-box; }
+svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+.fill-blue { background-color: #1E90FF; }
+.fill-default { background-color: #dcdcdc; }
 </style>
+
+<div class="grid-container">
 <table>
-  <tr>
-    <td class="fill-blue">1</td>
-    <td class="fill-blue">2</td>
-    <td class="fill-blue">9</td>
-    <td class="fill-default">10</td>
-    <td class="fill-default">25</td>
-  </tr>
-  <tr>
-    <td class="fill-blue">4</td>
-    <td class="fill-blue">3</td>
-    <td class="fill-blue">8</td>
-    <td class="fill-default">11</td>
-    <td class="fill-default">24</td>
-  </tr>
-  <tr>
-    <td class="fill-blue">5</td>
-    <td class="fill-blue">6</td>
-    <td class="fill-blue">7</td>
-    <td class="fill-default">12</td>
-    <td class="fill-default">23</td>
-  </tr>
-  <tr>
-    <td class="fill-default">16</td>
-    <td class="fill-default">15</td>
-    <td class="fill-default">14</td>
-    <td class="fill-default">13</td>
-    <td class="fill-default">22</td>
-  </tr>
-  <tr>
-    <td class="fill-default">17</td>
-    <td class="fill-default">18</td>
-    <td class="fill-default">19</td>
-    <td class="fill-default">20</td>
-    <td class="fill-default">21</td>
-  </tr>
+<tr>
+<td class="fill-blue">1</td>
+<td class="fill-blue">2</td>
+<td class="fill-blue">9</td>
+<td class="fill-default">10</td>
+<td class="fill-default">25</td>
+</tr>
+<tr>
+<td class="fill-blue">4</td>
+<td class="fill-blue">3</td>
+<td class="fill-blue">8</td>
+<td class="fill-default">11</td>
+<td class="fill-default">24</td>
+</tr>
+<tr>
+<td class="fill-blue">5</td>
+<td class="fill-blue">6</td>
+<td class="fill-blue">7</td>
+<td class="fill-default">12</td>
+<td class="fill-default">23</td>
+</tr>
+<tr>
+<td class="fill-default">16</td>
+<td class="fill-default">15</td>
+<td class="fill-default">14</td>
+<td class="fill-default">13</td>
+<td class="fill-default">22</td>
+</tr>
+<tr>
+<td class="fill-default">17</td>
+<td class="fill-default">18</td>
+<td class="fill-default">19</td>
+<td class="fill-default">20</td>
+<td class="fill-default">21</td>
+</tr>
 </table>
+<svg>
+<path d="M 255 20 L 255 255 L 35 255 M 55 240 L 35 255 L 55 270" stroke="#0b57d0" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
+</div>
 
 ## Solution
 Now let us divide the grid into squares starting at the top left corner of the grid. 
