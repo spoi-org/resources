@@ -15,41 +15,12 @@ Given a grid with numbers filled in the form of an outward spiral, find the numb
 Consider a square from the top left corner to a cell (a,a). This square contains all the numbers from $1$ to $a^2$. For example a square starting at cell (1,1) and ending at cell (3,3) has values from 1 to 9.
 
 <style>
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-    margin: 0;
-  }
-
-  table {
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-    background-color: #ffffff;
-  }
-
-  td {
-    border: 4px solid #1a1a1a; 
-    width: 70px;
-    height: 70px;
-    text-align: center;
-    vertical-align: middle;
-    color: #000000;
-  }
-
-  .fill-blue {
-    background-color: #1E90FF; /* Dodger Blue applied to 1-9 */
-  }
-  
-  .fill-default {
-    background-color: #dcdcdc; 
-  }
+  body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0; margin: 0; }
+  table { border-collapse: collapse; font-family: Arial, sans-serif; font-weight: bold; font-size: 24px; background-color: #ffffff; }
+  td { border: 4px solid #1a1a1a; width: 70px; height: 70px; text-align: center; vertical-align: middle; color: #000000; }
+  .fill-blue { background-color: #1E90FF; }
+  .fill-default { background-color: #dcdcdc; }
 </style>
-
 <table>
   <tr>
     <td class="fill-blue">1</td>
