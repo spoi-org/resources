@@ -8,62 +8,47 @@ editorial:
 
 {{< problem "cses-number-spiral" >}}
 
-<style>
-.spiral-wrapper {
-  position: relative;
-  width: 400px;
-  height: 400px;
-  margin: 2rem auto;
-}
-
-.spiral-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  width: 100%;
-  height: 100%;
-  background-color: #1a1a1a;
-  gap: 4px;
-  border: 4px solid #1a1a1a;
-  box-sizing: border-box;
-}
-
-.spiral-grid div {
-  display: grid;
-  place-items: center;
-  font-family: Arial, sans-serif;
-  font-weight: bold;
-  font-size: 24px;
-  color: #000000;
-}
-
-.fill-blue { background: #1E90FF; }
-.fill-default { background: #dcdcdc; }
-
-.spiral-svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-</style>
-
 ## Abridged problem statement
 Given a grid with numbers filled in the form of an outward spiral, find the number that is present in the cell (i,j).
 
 ## Observation
 Consider a square from the top left corner to a cell (a,a). This square contains all the numbers from $1$ to $a^2$. For example a square starting at cell (1,1) and ending at cell (3,3) has values from 1 to 9.
 
-<div class="spiral-wrapper">
-  <div class="spiral-grid">
-    <div class="fill-blue">1</div><div class="fill-blue">2</div><div class="fill-blue">9</div><div class="fill-default">10</div><div class="fill-default">25</div>
-    <div class="fill-blue">4</div><div class="fill-blue">3</div><div class="fill-blue">8</div><div class="fill-default">11</div><div class="fill-default">24</div>
-    <div class="fill-blue">5</div><div class="fill-blue">6</div><div class="fill-blue">7</div><div class="fill-default">12</div><div class="fill-default">23</div>
-    <div class="fill-default">16</div><div class="fill-default">15</div><div class="fill-default">14</div><div class="fill-default">13</div><div class="fill-default">22</div>
-    <div class="fill-default">17</div><div class="fill-default">18</div><div class="fill-default">19</div><div class="fill-default">20</div><div class="fill-default">21</div>
-  </div>
+<style>
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 70px);
+  gap: 4px;
+  background: #1a1a1a;
+  border: 4px solid #1a1a1a;
+  width: max-content;
+  margin: 1rem auto;
+}
+
+.number-grid i {
+  width: 100%;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  background: #dcdcdc;
+  color: #000000;
+  font-style: normal;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.number-grid .blue {
+  background: #1E90FF;
+}
+</style>
+
+<div class="number-grid">
+  <i class="blue">1</i><i class="blue">2</i><i class="blue">9</i><i>10</i><i>25</i>
+  <i class="blue">4</i><i class="blue">3</i><i class="blue">8</i><i>11</i><i>24</i>
+  <i class="blue">5</i><i class="blue">6</i><i class="blue">7</i><i>12</i><i>23</i>
+  <i>16</i><i>15</i><i>14</i><i>13</i><i>22</i>
+  <i>17</i><i>18</i><i>19</i><i>20</i><i>21</i>
 </div>
 
 ## Solution
