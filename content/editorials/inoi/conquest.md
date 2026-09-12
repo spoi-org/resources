@@ -10,40 +10,37 @@ editorial:
 
 {{< problem "inoi-conquest" >}}
 
-Tutaria has $N$ cities joined by $N - 1$ two-way roads, and every city is reachable from every
-other, so the road network is a tree. City $i$ holds $v_i$ gold ingots. Chef then makes $Q$
-independent expeditions; in the $i$-th of them he walks the unique simple route from city $a_i$ to
-city $b_i$, and may loot any subset of the cities on that route, as long as he never loots two
-cities joined by a road. For each expedition, report the largest total gold he can take.
+## Solution
 
-Constraints: $N, Q \le 5 \cdot 10^5$ and $0 \le v_i \le 10^9$, with a time limit of 3 seconds.
-Note that $a_i = b_i$ is allowed, in which case the route is a single city.
+**Note: [binary lifting]({{< ref "techniques/binary-lifting.md" >}}) is a prerequisite.**
 
-Each query is just the House Robber problem, run on the route between $a_i$ and $b_i$.
+Each query is just the 'House Robber' problem, run on the path from $a_i$ to $b_i$.
 
 {{< problem "leetcode-house-robber" >}}
 
-The solution to the house robber problem in brief goes as follows.
+The solution to the house robber problem is, in brief, the following:
 
 Let $\mathrm{dp}[i]$ be the maximum money obtainable from the
 first $i$ houses. Looking at house $i$ alone, there are two options:
 
-- loot it, which forbids house $i-1$ and leaves the first $i-2$ houses free: $\mathrm{dp}[i-2] + money[i]$
+- loot it, which forbids house $i-1$ and leaves the first $i-2$ houses free: $\mathrm{dp}[i-2] + \mathrm{money}[i]$
 - skip it, which lifts every restriction house $i$ would have imposed: $\mathrm{dp}[i-1]$
 
+Therefore, our overall transition is:
+
 $$
-\mathrm{dp}[i] = \max\left(\mathrm{dp}[i-1],\ \mathrm{dp}[i-2] + money[i]\right)
+\mathrm{dp}[i] = \max\left(\mathrm{dp}[i-1],\ \mathrm{dp}[i-2] + \mathrm{money}[i]\right)
 $$
 
-## Solution
+The naive solution would be to just calculate this in $\mathcal{O}(N)$ for every path. That would have a worst-case complexity of $\mathcal{O}(N \cdot Q)$.
 
-The naive solution would be to just calculate this dp in $O(N)$ for every path. That would be worst case $O(N \cdot Q)$.
+However, some dynamic programming problems have special structures that let us use tricks to make them faster. In particular, *there is* sometimes a way to, using the answer for two adjacent ranges, merge them together to obtain the answer for the full range.
 
-What we can do, is instead of walking the path for every query, we could precompute the answer for the paths between every node
-and its $2^k$-th ancestor, for every $0 \le k \le \lfloor \log_2 N \rfloor$, and then do binary lifting.
+Instead of walking the path for every query, we precompute the answer for the paths between every node
+and its $2^k$-th ancestor, for every $0 \le k \le \lfloor \log_2 N \rfloor$, and then use binary lifting.
 
-In order to do this, we would have to make some change to $\mathrm{dp}[i]$, so that
-$\mathrm{dp}[i] \to \mathrm{dp}[i][k][a][b]$ = maximum money obtainable on the path from node $i$ up to its
+However, in order to do this, we'll make some changes to $\mathrm{dp}[i]$, so that
+$\mathrm{dp}[i] \to \mathrm{dp}[i][k][a][b]$ now refers to the maximum money obtainable on the path from node $i$ up to its
 $2^k$-th ancestor, where $a, b \in \{0, 1\}$ record whether the lower and upper endpoints are barred from
 being looted: $a = 1$ means node $i$ itself may not be looted, $b = 1$ means the ancestor may not be.
 
@@ -56,7 +53,7 @@ being looted: $a = 1$ means node $i$ itself may not be looted, $b = 1$ means the
 
 A jump of $2^k$ is two jumps of $2^{k-1}$ stacked on each other. Let $m$ be the $2^{k-1}$-th ancestor of $i$:
 the lower half runs from $i$ to just below $m$, the upper half from $m$ upwards. The halves are disjoint,
-so the total money just adds together cleanly.
+so the total money just adds together.
 
 Let $x$ be the child of $m$ on the path, i.e. the top node of the lower half. The edge joining the two
 halves is then just $(x, m)$.
@@ -78,7 +75,6 @@ halves is then just $(x, m)$.
       <path d="M175 283 H163 V167 H175"/>
       <path d="M175 143 H163 V27 H175"/>
     </g>
-    <path d="M243 155 H280" opacity="0.55"/>
   </g>
   <g fill="currentColor" stroke="none" font-size="13">
     <circle cx="230" cy="82"  r="2"/><circle cx="230" cy="90"  r="2"/><circle cx="230" cy="98"  r="2"/>
@@ -89,13 +85,11 @@ halves is then just $(x, m)$.
     <text x="230" y="275" text-anchor="middle" font-style="italic">i</text>
     <text x="155" y="229" text-anchor="end" opacity="0.75">lower half</text>
     <text x="155" y="89"  text-anchor="end" opacity="0.75">upper half</text>
-    <text x="286" y="159" opacity="0.75">seam edge</text>
-    <text x="252" y="45"  font-style="italic">a = 2<tspan baseline-shift="super" font-size="9">k</tspan>-th ancestor of i</text>
   </g>
 </svg>
 </div>
 
-When combining the two halves, we must also make sure that we follow the rules of house robber. $x$ and $m$
+When combining the two halves, we must also make sure that we follow the rules of 'House Robber'. $x$ and $m$
 are adjacent, so at most one of them is looted: either bar $x$ from being looted, or bar $m$. Barring both
 is never better than barring one, so those two cases are all we need.
 
@@ -112,96 +106,111 @@ outer endpoints of the halves are the outer endpoints of the whole.
 
 ### Answering queries
 
-A route is not a single upward chain, so it cannot be covered by lifts directly. Let
-$l = \mathrm{lca}(a, b)$. The route splits at $l$ into two arms, $a \to l$ and $b \to l$, and each
-of those *is* an upward chain, of lengths $d_a = \mathrm{depth}(a) - \mathrm{depth}(l)$ and
+Let
+$l = \mathrm{lca}(a, b)$. The path splits at $l$ into two subpaths, $a \to l$ and $b \to l$, and each
+of those *is* an upward path, of lengths $d_a = \mathrm{depth}(a) - \mathrm{depth}(l)$ and
 $d_b = \mathrm{depth}(b) - \mathrm{depth}(l)$.
 
-An upward chain of any length is covered by writing its length in binary and lifting once per set bit
+An upward path of any length is covered by writing its length in binary and lifting once per set bit
 merging as we go. Each lift lands exactly where the next one starts, so the segments are
 consecutive and disjoint, and since merging is associative the result is the same as if we had one
 precomputed segment of the full length.
+
+For example, here's how the process would look for a path of length $13$:
 
 <style>
 @keyframes conquest-step-one   { 0%, 7%  { opacity: 0 } 10%, 100% { opacity: 1 } }
 @keyframes conquest-step-two   { 0%, 37% { opacity: 0 } 40%, 100% { opacity: 1 } }
 @keyframes conquest-step-three { 0%, 67% { opacity: 0 } 70%, 100% { opacity: 1 } }
-@keyframes conquest-label-one   { 0%, 7%  { opacity: 0 } 10%, 36% { opacity: 1 } 39%, 100% { opacity: 0 } }
-@keyframes conquest-label-two   { 0%, 37% { opacity: 0 } 40%, 66% { opacity: 1 } 69%, 100% { opacity: 0 } }
-@keyframes conquest-label-three { 0%, 67% { opacity: 0 } 70%, 100% { opacity: 1 } }
-.conquest-lift g[class^="conquest-"] { animation-duration: 7.5s; animation-iteration-count: infinite; }
+
+.conquest-lift g[class^="conquest-"] {
+  animation-duration: 7.5s;
+  animation-iteration-count: infinite;
+}
+
 .conquest-lift .conquest-one   { animation-name: conquest-step-one }
 .conquest-lift .conquest-two   { animation-name: conquest-step-two }
 .conquest-lift .conquest-three { animation-name: conquest-step-three }
-.conquest-lift .conquest-said-one   { animation-name: conquest-label-one }
-.conquest-lift .conquest-said-two   { animation-name: conquest-label-two }
-.conquest-lift .conquest-said-three { animation-name: conquest-label-three }
+
 @media (prefers-reduced-motion: reduce) {
-  .conquest-lift g[class^="conquest-"] { animation: none; opacity: 1 }
-  .conquest-lift .conquest-said-one, .conquest-lift .conquest-said-two { display: none }
+  .conquest-lift g[class^="conquest-"] {
+    animation: none;
+    opacity: 1;
+  }
 }
 </style>
 
 <div style="display:flex;justify-content:center;margin:1.5rem 0;">
-<svg class="conquest-lift" viewBox="0 0 440 190" width="100%" style="max-width:440px;height:auto;" role="img"
-     aria-label="An arm of thirteen cities being covered by three lifts, of sizes one, four and eight, applied in that order.">
+<svg class="conquest-lift" viewBox="0 0 440 105" width="100%" style="max-width:440px;height:auto;" role="img"
+     aria-label="A path of thirteen cities being covered by three lifts, of sizes one, four and eight, applied in that order.">
+
   <g stroke="currentColor" fill="none" stroke-width="1.5">
-    <line x1="29" y1="40" x2="401" y2="40"/>
+    <line x1="29"  y1="40" x2="41"  y2="40"/>
+    <line x1="59"  y1="40" x2="71"  y2="40"/>
+    <line x1="89"  y1="40" x2="101" y2="40"/>
+    <line x1="119" y1="40" x2="131" y2="40"/>
+    <line x1="149" y1="40" x2="161" y2="40"/>
+    <line x1="179" y1="40" x2="191" y2="40"/>
+    <line x1="209" y1="40" x2="221" y2="40"/>
+    <line x1="239" y1="40" x2="251" y2="40"/>
+    <line x1="269" y1="40" x2="281" y2="40"/>
+    <line x1="299" y1="40" x2="311" y2="40"/>
+    <line x1="329" y1="40" x2="341" y2="40"/>
+    <line x1="359" y1="40" x2="371" y2="40"/>
     <circle cx="20"  cy="40" r="9" fill="currentColor" fill-opacity="0.15"/>
-    <circle cx="50"  cy="40" r="9"/><circle cx="80"  cy="40" r="9"/>
-    <circle cx="110" cy="40" r="9"/><circle cx="140" cy="40" r="9"/>
-    <circle cx="170" cy="40" r="9"/><circle cx="200" cy="40" r="9"/>
-    <circle cx="230" cy="40" r="9"/><circle cx="260" cy="40" r="9"/>
-    <circle cx="290" cy="40" r="9"/><circle cx="320" cy="40" r="9"/>
-    <circle cx="350" cy="40" r="9"/><circle cx="380" cy="40" r="9"/>
-  </g>
-  <g fill="currentColor" stroke="none" font-size="12">
-    <text x="20"  y="22" text-anchor="middle" font-style="italic">a</text>
-    <text x="380" y="22" text-anchor="middle" font-style="italic">l</text>
-    <text x="220" y="176" text-anchor="middle" opacity="0.75">13 = 1101 in binary, so three lifts cover the arm</text>
+    <circle cx="50"  cy="40" r="9"/>
+    <circle cx="80"  cy="40" r="9"/>
+    <circle cx="110" cy="40" r="9"/>
+    <circle cx="140" cy="40" r="9"/>
+    <circle cx="170" cy="40" r="9"/>
+    <circle cx="200" cy="40" r="9"/>
+    <circle cx="230" cy="40" r="9"/>
+    <circle cx="260" cy="40" r="9"/>
+    <circle cx="290" cy="40" r="9"/>
+    <circle cx="320" cy="40" r="9"/>
+    <circle cx="350" cy="40" r="9"/>
+    <circle cx="380" cy="40" r="9"/>
   </g>
   <g class="conquest-one" stroke="currentColor" fill="currentColor" font-size="12">
     <path d="M11 62 V72 H29 V62" fill="none" stroke-width="1.5"/>
     <text x="20" y="90" text-anchor="middle" stroke="none">1</text>
   </g>
+
   <g class="conquest-two" stroke="currentColor" fill="currentColor" font-size="12">
     <path d="M41 62 V72 H149 V62" fill="none" stroke-width="1.5"/>
     <text x="95" y="90" text-anchor="middle" stroke="none">4</text>
     <line x1="35" y1="26" x2="35" y2="54" stroke-dasharray="4 3" opacity="0.6"/>
   </g>
+
   <g class="conquest-three" stroke="currentColor" fill="currentColor" font-size="12">
     <path d="M161 62 V72 H389 V62" fill="none" stroke-width="1.5"/>
     <text x="275" y="90" text-anchor="middle" stroke="none">8</text>
     <line x1="155" y1="26" x2="155" y2="54" stroke-dasharray="4 3" opacity="0.6"/>
   </g>
-  <g fill="currentColor" stroke="none" font-size="13">
-    <g class="conquest-said-one"><text x="220" y="125" text-anchor="middle">carrying a segment of 1 city</text></g>
-    <g class="conquest-said-two"><text x="220" y="125" text-anchor="middle">glued at the first seam: 5 cities</text></g>
-    <g class="conquest-said-three"><text x="220" y="125" text-anchor="middle">glued at the second seam: all 13 cities</text></g>
-  </g>
 </svg>
 </div>
 
-Note: $l$ lies on both arms, but must be counted once. We give it to the $a$ side: that arm is
+Note: $l$ lies on both paths, but must be counted once. We arbitrarily choose to include it in the $a$ side: that subpath is
 lifted $d_a + 1$ steps, up to and including $l$, while the $b$ side is lifted only $d_b$ steps and
 stops at the child of $l$.
 
-Reading the route from $a$, we walk up to $l$ and then back *down* to $b$, so
-the second arm appears reversed relative to how it was computed. Its two endpoint flags therefore
+Reading the path from $a$, we walk up to $l$ and then back *down* to $b$, so
+the second subpath appears reversed relative to how it was computed. Its two endpoint flags therefore
 sit on the wrong ends, and swapping $[0][1]$ with $[1][0]$ puts them back. After the swap the two
-pieces are adjacent at the seam between $l$ and its child on the $b$ side, so they merge exactly
-like two halves of a lift.
+pieces are adjacent at the seam between $l$ and its child on the $b$ side, so they merge correctly.
 
 
 If $d_b = 0$ then $b$ is an ancestor of $a$, or $b = a$, and the single $a$-side lift already covers
-the whole route; there is nothing to merge.
+the whole path; there is nothing to merge.
 
-The answer is the entry with neither outer endpoint barred, since the two ends of the route are
+The answer is the entry with neither outer endpoint barred, since the two ends of the path are
 under no constraint from outside it.
 
-Each query costs $O(\log N)$ for the LCA and $O(\log N)$ merges of four entries each.
+Each query costs $\mathcal{O}(\log N)$ for the LCA and $\mathcal{O}(\log N)$ merges of four entries each.
 
 ## Implementation
+
+### Editorial author's implementation
 
 ```cpp title="conquest.cpp"
 #include <bits/stdc++.h>
@@ -333,5 +342,180 @@ signed main() {
 }
 ```
 
-
 Time complexity: $O\left((N + Q) \log N\right)$. Memory: $O(N \log N)$.
+
+### Alternative implementation
+
+```cpp
+#pragma GCC optimize("Ofast,unroll-all-loops")
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int64_t inf = 1e15;
+
+struct node {
+  int64_t state[4];
+  node() {
+    state[0] = state[1] = state[2] = state[3] = 0;
+  }
+  node(int64_t a, int64_t b, int64_t c, int64_t d) {
+    state[0] = a, state[1] = b, state[2] = c, state[3] = d;
+  }
+  static node idt() {
+    return node{-inf, -inf, -inf, -inf};
+  }
+  bool operator==(const node &other) const = default;
+};
+
+node operator+(const node &left, const node &right) {
+  if (left == node::idt()) {
+    return right;
+  }
+  if (right == node::idt()) {
+    return left;
+  }
+  node ans = node::idt();
+  for (int i = 0; i < 4; ++i) {
+    for (int j = 0; j < 4; ++j) {
+      int b1 = (i & 1 << 1) ? 1 : 0;
+      int b2 = (i & 1 << 0) ? 1 : 0;
+      int b3 = (j & 1 << 1) ? 1 : 0;
+      int b4 = (j & 1 << 0) ? 1 : 0;
+      if (b2 == 1 && b3 == 1) {
+        continue;
+      }
+      int which = (b1 << 1) + b4;
+      ans.state[which] = max(ans.state[which], left.state[i] + right.state[j]);
+    }
+  }
+  return ans;
+}
+
+const int N = 5e5;
+
+int64_t v[N];
+vector<int> adj[N];
+int par[N], dep[N], up[19][N];
+node lift[19][N], rlift[19][N];
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+
+  int n, q;
+  cin >> n >> q;
+  for (int i = 0; i < n; ++i) {
+    cin >> v[i];
+  }
+
+  for (int i = 0, u, v; i < n - 1; ++i) {
+    cin >> u >> v;
+    --u, --v;
+    adj[u].push_back(v);
+    adj[v].push_back(u);
+  }
+
+  if (n == 1) {
+    while (q--) {
+      int a, b;
+      cin >> a >> b;
+      cout << v[0] << '\n';
+    }
+    return 0;
+  }
+
+  auto dfs = [&](auto &&self, int u, int p) -> void {
+    for (int &i : adj[u]) {
+      if (i == p) {
+        continue;
+      }
+      dep[i] = dep[u] + 1;
+      par[i] = up[0][i] = u;
+      self(self, i, u);
+    }
+  };
+  dfs(dfs, 0, -1);
+
+  for (int i = 0; i < n; ++i) {
+    lift[0][i] = rlift[0][i] = {0, -inf, -inf, v[i]};
+  }
+
+  for (int bt = 1; bt < 19; ++bt) {
+    for (int i = 0; i < n; ++i) {
+      up[bt][i] = up[bt - 1][up[bt - 1][i]];
+      lift[bt][i] = lift[bt - 1][i] + lift[bt - 1][up[bt - 1][i]];
+      rlift[bt][i] = rlift[bt - 1][up[bt - 1][i]] + rlift[bt - 1][i];
+    }
+  }
+
+  auto lift_up = [&](int u, int k) {
+    for (int bt = 0; bt < 19; ++bt) {
+      if (k & 1 << bt) {
+        u = up[bt][u];
+      }
+    }
+    return u;
+  };
+
+  auto lift_accum = [&](int u, int k) {
+    node ans = node::idt();
+    for (int bt = 0; bt < 19; ++bt) {
+      if (k & 1 << bt) {
+        ans = ans + lift[bt][u];
+        u = up[bt][u];
+      }
+    }
+    return ans;
+  };
+  auto lift_raccum = [&](int u, int k) {
+    node ans = node::idt();
+    for (int bt = 0; bt < 19; ++bt) {
+      if (k & 1 << bt) {
+        ans = rlift[bt][u] + ans;
+        u = up[bt][u];
+      }
+    }
+    return ans;
+  };
+
+  auto lca = [&](int u, int v) {
+    if (dep[u] < dep[v]) { // make u deeper
+      swap(u, v);
+    }
+    int k = dep[u] - dep[v];
+    u = lift_up(u, k);
+    if (u == v) {
+      return u;
+    }
+    for (int bt = 18; bt >= 0; --bt) {
+      if (up[bt][u] != up[bt][v]) {
+        u = up[bt][u], v = up[bt][v];
+      }
+    }
+    return up[0][u];
+  };
+
+  auto query = [&](int u, int v) {
+    int l = lca(u, v);
+    if (v == l) {
+      return lift_accum(u, dep[u] - dep[v] + 1);
+    }
+    if (u == l) {
+      return lift_raccum(v, dep[v] - dep[u] + 1);
+    }
+    node going_up = lift_accum(u, dep[u] - dep[l] + 1);
+    node going_down = lift_raccum(v, dep[v] - dep[l]);
+    return going_up + going_down;
+  };
+
+  while (q--) {
+    int u, v;
+    cin >> u >> v;
+    --u, --v;
+    node ans = query(u, v);
+    cout << max({ans.state[0], ans.state[1], ans.state[2], ans.state[3]}) << '\n';
+  }
+}
+```
