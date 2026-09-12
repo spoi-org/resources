@@ -10,15 +10,10 @@ editorial:
 
 ## Abridged problem statement
 Given a grid with numbers filled in the form of an outward spiral, find the number that is present in the cell (i,j).
+
 ## Observation
 Consider a square from the top left corner to a cell (a,a). This square contains all the numbers from $1$ to $a^2$. For example a square starting at cell (1,1) and ending at cell (3,3) has values from 1 to 9.
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colored Grid</title>
 <style>
   body {
     display: flex;
@@ -54,8 +49,6 @@ Consider a square from the top left corner to a cell (a,a). This square contains
     background-color: #dcdcdc; 
   }
 </style>
-</head>
-<body>
 
 <table>
   <tr>
@@ -95,47 +88,18 @@ Consider a square from the top left corner to a cell (a,a). This square contains
   </tr>
 </table>
 
-</body>
-</html>
-
 ## Solution
 Now let us divide the grid into squares starting at the top left corner of the grid. 
-Now I pick a cell (x,y) outside a square of dimentions $a \times a$. I know the value on cell (x,y) has to be greater than $a^2$. This is because all the numbers from $1$ to $a^2$ are already present in the square. 
+Now I pick a cell (x,y) outside a square of dimensions $a \times a$. I know the value on cell (x,y) has to be greater than $a^2$. This is because all the numbers from $1$ to $a^2$ are already present in the square. 
 So how do we use this to solve this problem?
-Let me consider the largest square the cell (x,y) is not part of. What should be the dimentions of this square? If $x \geq y$ this square must have dimentions $(x-1) \times (x-1)$. If $y \geq x$ this square must have dimentions $(y-1) \times (y-1)$. 
+Let me consider the largest square the cell (x,y) is not part of. What should be the dimensions of this square? If $x \geq y$ this square must have dimensions $(x-1) \times (x-1)$. If $y \geq x$ this square must have dimensions $(y-1) \times (y-1)$. 
 After we fill the square, we need to find how the remaining numbers are filled. These numbers are filled using method 1 and method 2 alternatively.
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colored Grid with Arrow</title>
 <style>
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-    margin: 0;
-  }
-
-  /* Container to hold both the table and the SVG overlay */
   .grid-container {
     position: relative;
     width: 400px;
     height: 400px;
-  }
-
-  table {
-    width: 100%;
-    height: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-    background-color: #ffffff;
   }
 
   td {
@@ -148,15 +112,6 @@ After we fill the square, we need to find how the remaining numbers are filled. 
     box-sizing: border-box;
   }
 
-  .fill-blue {
-    background-color: #1E90FF; /* Dodger Blue for 1-9 */
-  }
-  
-  .fill-default {
-    background-color: #dcdcdc; /* Light gray for default cells */
-  }
-
-  /* SVG overlay settings */
   svg {
     position: absolute;
     top: 0;
@@ -166,8 +121,6 @@ After we fill the square, we need to find how the remaining numbers are filled. 
     pointer-events: none; /* Allows mouse interactions to pass through to the table if needed */
   }
 </style>
-</head>
-<body>
 
 <div class="grid-container">
   <table>
@@ -221,72 +174,6 @@ After we fill the square, we need to find how the remaining numbers are filled. 
   </svg>
 </div>
 
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colored Grid with Arrow</title>
-<style>
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-    margin: 0;
-  }
-
-  .grid-container {
-    position: relative;
-    width: 400px;
-    height: 400px;
-  }
-
-  table {
-    width: 100%;
-    height: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-    background-color: #ffffff;
-  }
-
-  td {
-    border: 4px solid #1a1a1a; 
-    width: 20%; 
-    height: 20%; 
-    text-align: center;
-    vertical-align: middle;
-    color: #000000;
-    box-sizing: border-box;
-  }
-
-  .fill-blue {
-    background-color: #1E90FF; /* Dodger Blue for 1-16 */
-  }
-  
-  .fill-default {
-    background-color: #dcdcdc; /* Light gray for default cells */
-  }
-
-  /* SVG overlay settings */
-  svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; 
-  }
-</style>
-</head>
-<body>
-
 <div class="grid-container">
   <table>
     <tr>
@@ -339,13 +226,10 @@ After we fill the square, we need to find how the remaining numbers are filled. 
   </svg>
 </div>
 
-</body>
-</html>
-
-The numbers are filled in method 1 if the dimentions of the blue filled square is odd and method 2 if the dimentions of the blue filled square are even.
+The numbers are filled in method 1 if the dimensions of the blue filled square is odd and method 2 if the dimensions of the blue filled square are even.
 For simplicity, we will be dealing with $x \geq y$ here. You can easily derive the result for the other case as well. 
-If the cells were filled using method 1, we have already filled the square of dimentions $(x-1)^2$ and there are $y$ extra numbers that are entered. 
-If the cells were filled using method 2, we have already filled the square of dimentions $(x-1)^2$ and there are $x + (x - y) = 2x - y$ extra numbers that are entered. 
+If the cells were filled using method 1, we have already filled the square of dimensions $(x-1)^2$ and there are $y$ extra numbers that are entered. 
+If the cells were filled using method 2, we have already filled the square of dimensions $(x-1)^2$ and there are $x + (x - y) = 2x - y$ extra numbers that are entered. 
 
 ## Code
 ``` cpp
@@ -378,5 +262,4 @@ int32_t main(){
         }
         cout<<"\n";
     }
-}
-```
+} ```
