@@ -17,6 +17,11 @@ All contributions should remain consistent with the existing visual style of the
 * Use fonts consistent with those already used throughout the website.
 * Do not use rounded corners or `border-radius`.
 
+If you include code in your editorial, ensure that:
+* Your code is formatted with clang-format (with the [following](/.clang-format) configuration file)
+  * In particular, ensure that you use two spaces for indentation.
+* If possible, avoid using defines such as `#define int long long`. They reduce your code's clarity.
+
 ## Creating the editorial
 
 To add a ZCO, INOI, or other olympiad problem, first open:
