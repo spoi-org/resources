@@ -70,7 +70,7 @@ If the array is sorted in non-increasing order then, for each budget, everyone t
 
 ## Subtask 2
 
-In this subtask, $N \le (10^5)$. We will try to optimize our current approach to get a $\mathcal{O}(N)$ solution.
+In this subtask, $N \le (10^5)$. We will try to optimize our current approach to get an $\mathcal{O}(N)$ solution.
 
 Using observation 2, we can sort the array in non-increasing order. For each budget, the profit we can achieve is:
 
