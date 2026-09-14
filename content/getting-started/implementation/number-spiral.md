@@ -15,9 +15,9 @@ weight: 1
 Given a grid with numbers filled in the form of an outward spiral, find the number that is present in the cell $(x,y)$.
 
 ## Observation
-Consider a square from the top left corner to a cell $(a,a)$. This square contains all the numbers from $1$ to $a^2$. For example a square starting at cell $(1,1)$ and ending at cell $(3,3)$ has values from $1$ to $9$.
+Consider a square from the top left corner to a cell $(a,a)$. This square contains all the numbers from $1$ to $a^2$. For example, a square starting at cell $(1,1)$ and ending at cell $(3,3)$ has values from $1$ to $9$.
 
-<div style="position:relative; margin:0 auto; width:300px; height:300px; font-family:sans-serif; text-align:center; color:black; background:white;">
+<div style="position:relative; margin:0 auto; width:300px; height:300px; font-family:sans-serif; text-align:center; color:black; background:transparent;">
   <div style="display:grid; grid-template-columns:repeat(5, 1fr); grid-template-rows:repeat(5, 1fr); gap:6px; width:300px; height:300px; box-sizing:border-box; padding:6px; margin:0;">
     <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;">1</div>
     <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;">2</div>
@@ -48,143 +48,149 @@ Consider a square from the top left corner to a cell $(a,a)$. This square contai
 </div>
 
 ## Solution
-Now let us divide the grid into squares starting at the top left corner of the grid. 
-Now I pick a cell $(x,y)$ outside a square of dimensions $a \times a$. I know the value on cell $(x,y)$ has to be greater than $a^2$. This is because all the numbers from $1$ to $a^2$ are already already completely contained inside that square. 
-So how do we use this to solve this problem?
-Consider the largest square that does not contain the cell $(x,y)$. What should be the dimensions of this square? If $x \geq y$ this square must have dimensions $(x-1) \times (x-1)$. If $y \geq x$ this square must have dimensions $(y-1) \times (y-1)$. 
-Once this square has been filled, all numbers up to $(\max(x,y)-1)^2$ have already been used. The spiral uses Method 1 when the side length of the previously completed square (the blue square) is odd, and Method 2 when it is even.
+Now let us divide the grid into squares starting from the top left corner of the grid. 
+Let us pick a cell $(x,y)$ outside a square of dimensions $a \times a$. We know that the value on cell $(x,y)$ has to be greater than $a^2$ (because all the numbers from $1$ to $a^2$ are already already completely contained inside that square). 
+So, how do we use this to solve this problem?
+Consider the largest square that does not contain the cell $(x,y)$—that is—the square with dimensions $(\max(x,y)-1)\times(\max(x,y)-1)$. This square being filled out uses all numbers from $1$ to $(\max(x,y)-1)^2$. After this, we have two cases:
 
-<div style="display:flex; flex-direction:column; align-items:center; margin:0 auto; width:fit-content; font-family:sans-serif;">
-  <div style="position:relative; width:300px; height:300px; text-align:center; color:black; background:white;">
-    <div style="display:grid; grid-template-columns:repeat(5, 1fr); grid-template-rows:repeat(5, 1fr); gap:6px; width:300px; height:300px; box-sizing:border-box; padding:6px; margin:0;">
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">1</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">2</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">9</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">10</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">25</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">4</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">3</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">8</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">11</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">24</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">5</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">6</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">7</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">12</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">23</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">16</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">15</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">14</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">13</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">22</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">17</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">18</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">19</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">20</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">21</span></div>
-    </div>
-    <!-- SVG given z-index: 1 so it sits over the grid backgrounds but under the z-index: 2 text -->
-    <svg style="position:absolute; top:0; left:0; width:300px; height:300px; pointer-events:none; z-index:1;" viewBox="0 0 300 300">
-      <defs>
-        <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto">
-          <path d="M 0 0 L 6 3 L 0 6 Z" fill="#1565C0" />
-        </marker>
-      </defs>
-      <path d="M 209 32 L 209 209 L 32 209" fill="none" stroke="#1565C0" stroke-width="4.5" marker-end="url(#arrowhead)" stroke-linejoin="round"/>
-    </svg>
-  </div>
-  
-  <div style="margin-top:12px; font-weight:bold; font-size:1.1rem; color:#333;">
-    Method 1
-  </div>
+<style>
+.number-spiral-methods{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:24px;margin:1rem auto;font-family:sans-serif}
+.number-spiral-figure{display:flex;flex-direction:column;align-items:center;width:fit-content;margin:0}
+.number-spiral-grid{position:relative;width:300px;height:300px;text-align:center;color:black;background:transparent}
+.number-spiral-cells{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:6px;width:300px;height:300px;box-sizing:border-box;padding:6px}
+.number-spiral-cells div{display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2rem}
+.number-spiral-blue{background:#2196F3}
+.number-spiral-gray{background:#E0E0E0}
+.number-spiral-arrow{position:absolute;inset:0;width:300px;height:300px;pointer-events:none;z-index:1}
+.number-spiral-figure figcaption{margin-top:.75rem;text-align:center}
+</style>
+<div class="number-spiral-methods">
+<figure class="number-spiral-figure">
+<div class="number-spiral-grid">
+<div class="number-spiral-cells">
+<div class="number-spiral-blue">1</div>
+<div class="number-spiral-blue">2</div>
+<div class="number-spiral-blue">9</div>
+<div class="number-spiral-gray">10</div>
+<div class="number-spiral-gray">25</div>
+<div class="number-spiral-blue">4</div>
+<div class="number-spiral-blue">3</div>
+<div class="number-spiral-blue">8</div>
+<div class="number-spiral-gray">11</div>
+<div class="number-spiral-gray">24</div>
+<div class="number-spiral-blue">5</div>
+<div class="number-spiral-blue">6</div>
+<div class="number-spiral-blue">7</div>
+<div class="number-spiral-gray">12</div>
+<div class="number-spiral-gray">23</div>
+<div class="number-spiral-gray">16</div>
+<div class="number-spiral-gray">15</div>
+<div class="number-spiral-gray">14</div>
+<div class="number-spiral-gray">13</div>
+<div class="number-spiral-gray">22</div>
+<div class="number-spiral-gray">17</div>
+<div class="number-spiral-gray">18</div>
+<div class="number-spiral-gray">19</div>
+<div class="number-spiral-gray">20</div>
+<div class="number-spiral-gray">21</div>
+</div>
+<svg class="number-spiral-arrow" viewBox="0 0 300 300">
+<defs>
+<marker id="arrowhead-method-1" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto">
+<path d="M 0 0 L 6 3 L 0 6 Z" fill="#1565C0" fill-opacity="0.62"/>
+</marker>
+</defs>
+<path d="M 209 32 L 209 209 L 32 209" fill="none" stroke="#1565C0" stroke-width="4.5" stroke-opacity="0.62" marker-end="url(#arrowhead-method-1)" stroke-linejoin="round"/>
+</svg>
+</div>
+<figcaption>Case (i)</figcaption>
+</figure>
+<figure class="number-spiral-figure">
+<div class="number-spiral-grid">
+<div class="number-spiral-cells">
+<div class="number-spiral-blue">1</div>
+<div class="number-spiral-blue">2</div>
+<div class="number-spiral-blue">9</div>
+<div class="number-spiral-blue">10</div>
+<div class="number-spiral-gray">25</div>
+<div class="number-spiral-blue">4</div>
+<div class="number-spiral-blue">3</div>
+<div class="number-spiral-blue">8</div>
+<div class="number-spiral-blue">11</div>
+<div class="number-spiral-gray">24</div>
+<div class="number-spiral-blue">5</div>
+<div class="number-spiral-blue">6</div>
+<div class="number-spiral-blue">7</div>
+<div class="number-spiral-blue">12</div>
+<div class="number-spiral-gray">23</div>
+<div class="number-spiral-blue">16</div>
+<div class="number-spiral-blue">15</div>
+<div class="number-spiral-blue">14</div>
+<div class="number-spiral-blue">13</div>
+<div class="number-spiral-gray">22</div>
+<div class="number-spiral-gray">17</div>
+<div class="number-spiral-gray">18</div>
+<div class="number-spiral-gray">19</div>
+<div class="number-spiral-gray">20</div>
+<div class="number-spiral-gray">21</div>
+</div>
+<svg class="number-spiral-arrow" viewBox="0 0 300 300">
+<defs>
+<marker id="arrowhead-method-2" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto">
+<path d="M 0 0 L 6 3 L 0 6 Z" fill="#1565C0" fill-opacity="0.62"/>
+</marker>
+</defs>
+<path d="M 32 268 L 268 268 L 268 32" fill="none" stroke="#1565C0" stroke-width="4.5" stroke-opacity="0.62" marker-end="url(#arrowhead-method-2)" stroke-linejoin="round"/>
+</svg>
+</div>
+<figcaption>Case (ii)</figcaption>
+</figure>
 </div>
 
+We use (i) when the blue square has an odd length, and (ii) otherwise. Without loss of generality, let us assume $x \ge y$ (the other case is symmetric):
 
+Before reaching row/column $x$, the spiral has already filled the $(x-1)\times(x-1)$ square, so the last used number is $(x-1)^2$.
 
+In case (i), we move $y$ more cells, so the answer is
 
-<div style="display:flex; flex-direction:column; align-items:center; margin:0 auto; width:fit-content; font-family:sans-serif;">
-  <div style="position:relative; width:300px; height:300px; text-align:center; color:black; background:white;">
-    <div style="display:grid; grid-template-columns:repeat(5, 1fr); grid-template-rows:repeat(5, 1fr); gap:6px; width:300px; height:300px; box-sizing:border-box; padding:6px; margin:0;">
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">1</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">2</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">9</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">10</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">25</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">4</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">3</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">8</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">11</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">24</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">5</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">6</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">7</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">12</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">23</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">16</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">15</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">14</span></div>
-      <div style="background-color:#2196F3; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">13</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">22</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">17</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">18</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">19</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">20</span></div>
-      <div style="background-color:#E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:1.2rem;"><span style="position:relative; z-index:2;">21</span></div>
-    </div>
-    <!-- SVG given z-index: 1 so it sits under the text but over the cell background colors -->
-    <svg style="position:absolute; top:0; left:0; width:300px; height:300px; pointer-events:none; z-index:1;" viewBox="0 0 300 300">
-      <defs>
-        <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="2" refY="3" orient="auto">
-          <path d="M 0 0 L 6 3 L 0 6 Z" fill="#1565C0" />
-        </marker>
-      </defs>
-      <!-- Arrow path adjusted to perfectly intersect the center coordinates (X:268, Y:268) of the 5th column and 5th row -->
-      <path d="M 32 268 L 268 268 L 268 32" fill="none" stroke="#1565C0" stroke-width="4.5" marker-end="url(#arrowhead)" stroke-linejoin="round"/>
-    </svg>
-  </div>
-  
-  <div style="margin-top:12px; font-weight:bold; font-size:1.1rem; color:#333;">
-    Method 2
-  </div>
-</div>
+$$
+(x-1)^2+y.
+$$
 
+In case (ii), we first move $x$ cells, then move back $x-y$ cells. So the answer is
 
-The numbers are filled in method 1 if the dimensions of the blue filled square is odd and method 2 if the dimensions of the blue filled square are even.
-For simplicity, we will be dealing with $x \geq y$ here. You can easily derive the result for the other case as well. 
+$$
+(x-1)^2+x+(x-y)=(x-1)^2+2x-y.
+$$
 
-We first fill the square of dimensions $(x-1)\times(x-1)$, which contains the numbers $1$ through $(x-1)^2$. We continue counting from $(x-1)^2$ and move forward by $y$ cells 
-If the cells were filled using method 2, we start by filling the square of dimensions $(x-1)^2$. After this we continue to fill $x + (x - y) = 2x - y$ additional cells. 
-
-## Code
+## Implementation
 ``` cpp
 #include <bits/stdc++.h>
+
 using namespace std;
 
-int32_t main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    long long t;
-    cin >> t;
-    while(t--){
-        long long x, y;
-        cin >> x >> y;
-        if(x > y){
-            if(x%2 == 1){
-                cout << ((x-1)*(x-1) + y);
-            }
-            else{
-                cout << ((x-1)*(x-1) + 2*x - y);
-            }
-        }
-        else{
-            if(y%2 == 0){
-                cout << ((y-1)*(y-1) + x);
-            }
-            else{
-                cout << ((y-1)*(y-1) + 2*y - x);
-            }
-        }
-        cout<<"\n";
+int32_t main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(nullptr);
+  long long t;
+  cin >> t;
+  while (t--) {
+    long long x, y;
+    cin >> x >> y;
+    if (x > y) {
+      if (x % 2 == 1) {
+        cout << ((x - 1) * (x - 1) + y);
+      } else {
+        cout << ((x - 1) * (x - 1) + 2 * x - y);
+      }
+    } else {
+      if (y % 2 == 0) {
+        cout << ((y - 1) * (y - 1) + x);
+      } else {
+        cout << ((y - 1) * (y - 1) + 2 * y - x);
+      }
     }
-} 
+    cout << "\n";
+  }
+}
 ```
