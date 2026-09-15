@@ -63,10 +63,9 @@ Olympiad preparation is not easy, and is definitely time consuming. For some ste
     - (more optional) I'd recommend learning the following features specifically
       - some STL algorithms like `std::sort` and `std::find`
         - we'll learn specifically useful ones as we progress
-      - `class/struct` 
+      - `class/struct`
       - `template <typename T>`
 - [Built-in data structures]({{< ref "getting-started/built-in.md" >}})
-- [Linear search]({{< ref "getting-started/linear-search.md" >}})
 - [Basic implementation]({{< ref "getting-started/implementation.md" >}})
 
 ---
