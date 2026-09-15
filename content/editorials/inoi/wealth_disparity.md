@@ -65,7 +65,7 @@ Consider the following input:
 
 The given input is described by the following image:
 
-![Example tree](tree.svg)
+![Example tree](wealth_disparity_tree.svg)
 
 In the DFS traversal we first traverse $1$, then $2$ and $4$.
 The wealth of the employee $4$ is $10$.
