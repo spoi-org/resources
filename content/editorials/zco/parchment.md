@@ -10,7 +10,7 @@ editorial:
 
 {{< problem "zco-parchment" >}}
 
-[Binary search]({{< ref "techniques/binary-search.md" >}}) is a prerequisite for subtask 6 and above.
+[Binary search]({{< ref "techniques/binary-search/basics.md" >}}) is a prerequisite for subtask 6 and above.
 
 The solution to this problem was also discussed [here](https://www.youtube.com/watch?v=aH8i4dzOvpU) on the SPOI YouTube channel.
 
