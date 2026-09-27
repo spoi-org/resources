@@ -1,7 +1,7 @@
 ---
 draft: true
 title: 'Dynamic programming'
-weight: 6
+weight: 7
 ---
 
 THIS IS A DRAFT.
