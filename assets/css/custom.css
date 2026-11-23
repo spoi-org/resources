@@ -160,7 +160,9 @@
 
 .mermaid .edgeLabel foreignObject {
   overflow: visible !important;
-}
-.mermaid .edgeLabel p {
   transform: translateY(-15px);
+}
+
+.mermaid .edgeLabel p {
+  margin: 0 !important;
 }
